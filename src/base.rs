@@ -2,6 +2,10 @@ use multi_trait_object::MultitraitObject;
 use std::any::TypeId;
 use std::collections::HashMap;
 
+/// Base typemap used for implementation but not elsewhere
+/// Each other typemap is just a newtype of this base type with
+/// additional implementation.
+#[doc(hidden)]
 #[derive(Debug, Default)]
 pub(crate) struct TypeMapBase(pub(crate) HashMap<TypeId, MultitraitObject>);
 

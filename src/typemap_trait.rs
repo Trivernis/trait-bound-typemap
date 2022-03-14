@@ -9,12 +9,14 @@ pub trait TypeMapKey: 'static {
 
 /// A trait used for restricting values inserted in a type map
 /// using type checking
+#[doc(hidden)]
 pub trait TypedKeyTrait<T>: 'static {
     type Value: TypedKeyMto<T>;
 }
 
 /// A trait used to create a multitrait-object from a given
 /// value with the given guaranteed trait implementations
+#[doc(hidden)]
 pub trait TypedKeyMto<T> {
     fn into_mto(self) -> MultitraitObject;
 }

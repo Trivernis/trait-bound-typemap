@@ -1,7 +1,7 @@
 #![doc=include_str!("../README.md")]
 
 mod base;
-pub(crate) mod macros;
+mod macros;
 #[cfg(test)]
 mod tests;
 mod trait_maps;
