@@ -1,7 +1,16 @@
-# Trait bound Typemap
+# Trait bound Typemap [![](https://img.shields.io/crates/v/trait-bound-typemap)](https://crates.io/crates/trait-bound-typemap) [![](https://img.shields.io/docsrs/trait-bound-typemap)](https://docs.rs/trait-bound-typemap)
 
 This crate offers typemaps that restrict a given type in their
 trait and therefore offer additional trait implementations such as `Clone` and `PartialEq`.
+
+
+## Safety
+
+This crate relies on the [multi-trait-object](https://crates.io/crates/multi-trait-object) crate
+which provides a workaround for storing a type erased object with all associated traits until
+this feature is implemented in the language itself. This crate will likely break when the
+fat pointer used by trait objects changes which it hasn't in a long time so far. 
+
 
 ## Usage
 
