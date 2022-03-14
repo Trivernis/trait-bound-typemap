@@ -5,6 +5,7 @@ macro_rules! impl_typemap {
     ($( #[$outer:meta] )*
         $map:ident, $key:ident, $($trt:ident), +) => {
         $( #[$outer] )*
+        #[derive(Debug)]
         pub struct $map($crate::base::TypeMapBase);
         $crate::impl_typekey!($key, $( $trt )+);
 

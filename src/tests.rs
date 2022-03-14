@@ -1,4 +1,4 @@
-use crate::{CloneTypeMap, TypeMap, TypeMapKey, TypeMapTrait};
+use crate::{CloneTypeMap, PartialEqTypeMap, TypeMap, TypeMapKey, TypeMapTrait};
 
 pub struct TestStructKey;
 #[derive(Clone, Debug, PartialEq)]
@@ -69,4 +69,13 @@ fn it_creates_clonable_maps() {
     assert!(map.contains_key::<TestStructKey>());
     assert!(map.contains_key::<TestStruct2Key>());
     assert_eq!(map.contains_key::<NotInsertedKey>(), false);
+}
+
+#[test]
+fn it_creates_partial_eq_maps() {
+    let mut map = PartialEqTypeMap::new();
+    map.insert::<TestStructKey>(TestStruct::default());
+    let mut map2 = PartialEqTypeMap::new();
+    map2.insert::<TestStructKey>(TestStruct::default());
+    assert_eq!(map, map2)
 }

@@ -1,7 +1,7 @@
 # Trait bound Typemap
 
 This crate offers typemaps that restrict a given type in their
-trait and therefore offer additional trait implementations such as `Clone`.
+trait and therefore offer additional trait implementations such as `Clone` and `PartialEq`.
 
 ## Usage
 
