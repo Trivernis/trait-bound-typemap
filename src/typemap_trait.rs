@@ -27,10 +27,6 @@ pub trait MapKey {
     type Map: TypeMapTrait<Key = Self>;
 }
 
-/// A marker trait to transfer trait information
-#[doc(hidden)]
-pub trait TraitCarrier<T> {}
-
 /// A trait implemented by all typemaps that provides
 /// all basic typemap functions
 pub trait TypeMapTrait {

@@ -1,4 +1,6 @@
-use crate::{AnyTypeMap, CloneTypeMap, PartialEqTypeMap, TypeMapKey, TypeMapTrait};
+use crate::{
+    AnyTypeMap, CloneSendSyncTypeMap, CloneTypeMap, PartialEqTypeMap, TypeMapKey, TypeMapTrait,
+};
 
 pub struct TestStructKey;
 #[derive(Clone, Debug, PartialEq)]
@@ -72,6 +74,16 @@ fn it_creates_clonable_maps() {
 }
 
 #[test]
+fn it_creates_clonable_send_sync_maps() {
+    let mut map = CloneSendSyncTypeMap::new();
+    map.insert::<TestStructKey>(TestStruct::default());
+    map.insert::<TestStruct2Key>(TestStruct2::default());
+    assert!(map.contains_key::<TestStructKey>());
+    assert!(map.contains_key::<TestStruct2Key>());
+    assert_eq!(map.contains_key::<NotInsertedKey>(), false);
+}
+
+#[test]
 fn it_creates_partial_eq_maps() {
     let mut map = PartialEqTypeMap::new();
     map.insert::<TestStructKey>(TestStruct::default());
@@ -82,8 +94,10 @@ fn it_creates_partial_eq_maps() {
 
 #[test]
 fn it_converts() {
-    let mut clone_map = CloneTypeMap::new();
-    clone_map.insert::<TestStructKey>(TestStruct::default());
+    let mut clone_send_sync_map = CloneSendSyncTypeMap::new();
+    clone_send_sync_map.insert::<TestStructKey>(TestStruct::default());
+    assert!(clone_send_sync_map.contains_key::<TestStructKey>());
+    let clone_map = CloneTypeMap::from_iter(clone_send_sync_map);
     assert!(clone_map.contains_key::<TestStructKey>());
     let any_map = AnyTypeMap::from_iter(clone_map);
     assert!(any_map.contains_key::<TestStructKey>());

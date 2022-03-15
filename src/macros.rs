@@ -8,7 +8,7 @@ macro_rules! impl_typemap {
         #[derive(Debug)]
         pub struct $map($crate::type_indexed::TypeIndexedMap<multi_trait_object::MultitraitObject>);
 
-        $crate::impl_typekey!($key, $( $trt )+);
+        $crate::impl_typekey!($key $(, $trt )+);
 
         impl $crate::MapKey for $key {
             type Map = $map;
