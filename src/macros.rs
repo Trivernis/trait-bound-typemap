@@ -7,7 +7,12 @@ macro_rules! impl_typemap {
         $( #[$outer] )*
         #[derive(Debug)]
         pub struct $map($crate::type_indexed::TypeIndexedMap<multi_trait_object::MultitraitObject>);
+
         $crate::impl_typekey!($key, $( $trt )+);
+
+        impl $crate::MapKey for $key {
+            type Map = $map;
+        }
 
         impl $crate::TypeMapTrait for $map {
             type Key = $key;
@@ -48,6 +53,31 @@ macro_rules! impl_typemap {
             #[inline]
             fn contains_key<T: $crate::TypedKeyTrait<Self::Key>>(&self) -> bool {
                 self.0.contains_key::<T>()
+            }
+        }
+
+        impl IntoIterator for $map {
+            type Item = $crate::TypeMapEntry<$key>;
+            type IntoIter =  std::vec::IntoIter<Self::Item>;
+
+            fn into_iter(self) -> Self::IntoIter {
+                self.0
+                     .0
+                    .into_iter()
+                    .map(|(k, v)| $crate::TypeMapEntry::new(k, v))
+                    .collect::<Vec<Self::Item>>()
+                    .into_iter()
+            }
+        }
+
+        impl<T: $crate::MapKey<Map = M>, M: 'static $(+ $trt )+> FromIterator<$crate::TypeMapEntry<T>> for $map {
+            fn from_iter<T2: IntoIterator<Item = $crate::TypeMapEntry<T>>>(iter: T2) -> Self {
+                let map = iter
+                    .into_iter()
+                    .map(|e: $crate::TypeMapEntry<T>| (e.type_id, e.mto))
+                    .collect::<std::collections::HashMap<std::any::TypeId, multi_trait_object::MultitraitObject>>();
+
+                $map($crate::type_indexed::TypeIndexedMap(map))
             }
         }
     };

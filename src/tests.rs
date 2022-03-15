@@ -1,4 +1,4 @@
-use crate::{CloneTypeMap, PartialEqTypeMap, TypeMap, TypeMapKey, TypeMapTrait};
+use crate::{AnyTypeMap, CloneTypeMap, PartialEqTypeMap, TypeMapKey, TypeMapTrait};
 
 pub struct TestStructKey;
 #[derive(Clone, Debug, PartialEq)]
@@ -51,7 +51,7 @@ impl TypeMapKey for NotInsertedKey {
 
 #[test]
 fn it_creates_any_maps() {
-    let mut map = TypeMap::new();
+    let mut map = AnyTypeMap::new();
     map.insert::<NoCloneStruct>(NoCloneStruct);
     map.insert::<TestStructKey>(TestStruct::default());
     map.insert::<TestStruct2Key>(TestStruct2::default());
@@ -78,4 +78,13 @@ fn it_creates_partial_eq_maps() {
     let mut map2 = PartialEqTypeMap::new();
     map2.insert::<TestStructKey>(TestStruct::default());
     assert_eq!(map, map2)
+}
+
+#[test]
+fn it_converts() {
+    let mut clone_map = CloneTypeMap::new();
+    clone_map.insert::<TestStructKey>(TestStruct::default());
+    assert!(clone_map.contains_key::<TestStructKey>());
+    let any_map = AnyTypeMap::from_iter(clone_map);
+    assert!(any_map.contains_key::<TestStructKey>());
 }

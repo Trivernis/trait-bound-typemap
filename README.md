@@ -15,7 +15,7 @@ fat pointer used by trait objects changes which it hasn't in a long time so far.
 ## Usage
 
 ```rust
-use trait_bound_typemap::{CloneTypeMap, TypeMapTrait, TypeMapKey};
+use trait_bound_typemap::{CloneTypeMap, AnyTypeMap, TypeMapTrait, TypeMapKey};
 
 #[derive(Clone)]
 pub struct MyStruct {
@@ -33,6 +33,14 @@ fn main() {
     let mut map = CloneTypeMap::new();
     let value = MyStruct {a: 5, b: String::from("Hello World")};
     map.insert::<MyStructKey>(value);
+    assert!(map.contains_key::<MyStructKey>());
+
+    // can be cloned
+    let map2 = map.clone();
+    assert!(map.contains_key::<MyStructKey>());
+
+    // less restrictive is always allowed
+    let any_map = AnyTypeMap::from_iter(map2);
     assert!(map.contains_key::<MyStructKey>());
 }
 ```

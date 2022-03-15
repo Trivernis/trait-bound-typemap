@@ -21,6 +21,16 @@ pub trait TypedKeyMto<T> {
     fn into_mto(self) -> MultitraitObject;
 }
 
+/// A trait to map the key to the map it describes
+#[doc(hidden)]
+pub trait MapKey {
+    type Map: TypeMapTrait<Key = Self>;
+}
+
+/// A marker trait to transfer trait information
+#[doc(hidden)]
+pub trait TraitCarrier<T> {}
+
 /// A trait implemented by all typemaps that provides
 /// all basic typemap functions
 pub trait TypeMapTrait {
