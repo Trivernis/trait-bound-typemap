@@ -24,12 +24,12 @@ pub trait TypedKeyMto<T> {
 /// A trait to map the key to the map it describes
 #[doc(hidden)]
 pub trait MapKey {
-    type Map: TypeMapTrait<Key = Self>;
+    type Map: TypeMap<Key = Self>;
 }
 
 /// A trait implemented by all typemaps that provides
 /// all basic typemap functions
-pub trait TypeMapTrait {
+pub trait TypeMap {
     type Key;
 
     /// Creates a new typemap

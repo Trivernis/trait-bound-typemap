@@ -14,7 +14,7 @@ macro_rules! impl_typemap {
             type Map = $map;
         }
 
-        impl $crate::TypeMapTrait for $map {
+        impl $crate::TypeMap for $map {
             type Key = $key;
 
             #[inline]

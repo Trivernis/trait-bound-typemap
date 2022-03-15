@@ -1,5 +1,5 @@
 use crate::{
-    AnyTypeMap, CloneSendSyncTypeMap, CloneTypeMap, PartialEqTypeMap, TypeMapKey, TypeMapTrait,
+    AnyTypeMap, CloneSendSyncTypeMap, CloneTypeMap, PartialEqTypeMap, TypeMap, TypeMapKey,
 };
 
 pub struct TestStructKey;

@@ -15,7 +15,7 @@ fat pointer used by trait objects changes which it hasn't in a long time so far.
 ## Usage
 
 ```rust
-use trait_bound_typemap::{CloneTypeMap, AnyTypeMap, TypeMapTrait, TypeMapKey};
+use trait_bound_typemap::{CloneTypeMap, AnyTypeMap, TypeMap, TypeMapKey};
 
 #[derive(Clone)]
 pub struct MyStruct {
