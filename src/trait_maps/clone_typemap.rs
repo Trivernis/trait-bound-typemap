@@ -1,5 +1,5 @@
-use crate::base::TypeMapBase;
 use crate::impl_typemap;
+use crate::type_indexed::TypeIndexedMap;
 use multi_trait_object::{RawClone, TryClone};
 
 impl_typemap!(
@@ -18,6 +18,6 @@ impl Clone for CloneTypeMap {
             .iter()
             .map(|(t, o)| (t.clone(), o.try_clone().unwrap()))
             .collect();
-        CloneTypeMap(TypeMapBase(map))
+        CloneTypeMap(TypeIndexedMap(map))
     }
 }

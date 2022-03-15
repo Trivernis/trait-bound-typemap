@@ -6,7 +6,7 @@ macro_rules! impl_typemap {
         $map:ident, $key:ident, $($trt:ident), +) => {
         $( #[$outer] )*
         #[derive(Debug)]
-        pub struct $map($crate::base::TypeMapBase);
+        pub struct $map($crate::type_indexed::TypeIndexedMap<multi_trait_object::MultitraitObject>);
         $crate::impl_typekey!($key, $( $trt )+);
 
         impl $crate::TypeMapTrait for $map {
@@ -14,7 +14,7 @@ macro_rules! impl_typemap {
 
             #[inline]
             fn new() -> Self {
-                Self($crate::base::TypeMapBase::new())
+                Self($crate::type_indexed::TypeIndexedMap::new())
             }
 
             #[inline]
