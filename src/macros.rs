@@ -80,6 +80,17 @@ macro_rules! impl_typemap {
                 $map($crate::type_indexed::TypeIndexedMap(map))
             }
         }
+
+        impl<K: $crate::MapKey<Map = M>, M: 'static $(+ $trt )+> Extend<$crate::TypeMapEntry<K>> for $map {
+            fn extend<T: IntoIterator<Item = $crate::TypeMapEntry<K>>>(&mut self, iter: T) {
+                let iter = iter
+                    .into_iter()
+                    .map(|e: $crate::TypeMapEntry<K>| (e.type_id, e.mto))
+                    .collect::<Vec<(std::any::TypeId, multi_trait_object::MultitraitObject)>>();
+                self.0.extend(iter)
+            }
+        }
+
     };
 }
 

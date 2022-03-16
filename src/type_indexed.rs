@@ -1,4 +1,5 @@
 use std::any::TypeId;
+use std::collections::hash_map::IntoIter;
 use std::collections::HashMap;
 
 /// Base typemap used for implementation but not elsewhere
@@ -43,5 +44,20 @@ impl<T> TypeIndexedMap<T> {
     #[inline]
     pub fn contains_key<K: 'static>(&self) -> bool {
         self.0.contains_key(&TypeId::of::<K>())
+    }
+}
+
+impl<T> IntoIterator for TypeIndexedMap<T> {
+    type Item = (TypeId, T);
+    type IntoIter = IntoIter<TypeId, T>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.0.into_iter()
+    }
+}
+
+impl<T> Extend<(TypeId, T)> for TypeIndexedMap<T> {
+    fn extend<I: IntoIterator<Item = (TypeId, T)>>(&mut self, iter: I) {
+        self.0.extend(iter)
     }
 }

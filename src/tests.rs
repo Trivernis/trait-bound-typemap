@@ -97,8 +97,23 @@ fn it_converts() {
     let mut clone_send_sync_map = CloneSendSyncTypeMap::new();
     clone_send_sync_map.insert::<TestStructKey>(TestStruct::default());
     assert!(clone_send_sync_map.contains_key::<TestStructKey>());
+
     let clone_map = CloneTypeMap::from_iter(clone_send_sync_map);
     assert!(clone_map.contains_key::<TestStructKey>());
+
     let any_map = AnyTypeMap::from_iter(clone_map);
     assert!(any_map.contains_key::<TestStructKey>());
+}
+
+#[test]
+fn it_can_be_extended() {
+    let mut clone_send_sync_map = CloneSendSyncTypeMap::new();
+    clone_send_sync_map.insert::<TestStructKey>(TestStruct::default());
+    assert!(clone_send_sync_map.contains_key::<TestStructKey>());
+
+    let mut clone_map = CloneTypeMap::new();
+    clone_map.insert::<TestStruct2Key>(TestStruct2::default());
+    clone_map.extend(clone_send_sync_map);
+    assert!(clone_map.contains_key::<TestStructKey>());
+    assert!(clone_map.contains_key::<TestStruct2Key>());
 }
