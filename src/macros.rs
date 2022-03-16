@@ -70,7 +70,9 @@ macro_rules! impl_typemap {
             }
         }
 
-        impl<T: $crate::MapKey<Map = M>, M: 'static $(+ $trt )+> FromIterator<$crate::TypeMapEntry<T>> for $map {
+        impl<T: $crate::TypeMap $(+ $trt )+> $crate::MapCanExtend<$map> for T {}
+
+        impl<T: $crate::KeyCanExtend<$map>> FromIterator<$crate::TypeMapEntry<T>> for $map {
             fn from_iter<T2: IntoIterator<Item = $crate::TypeMapEntry<T>>>(iter: T2) -> Self {
                 let map = iter
                     .into_iter()
@@ -81,7 +83,7 @@ macro_rules! impl_typemap {
             }
         }
 
-        impl<K: $crate::MapKey<Map = M>, M: 'static $(+ $trt )+> Extend<$crate::TypeMapEntry<K>> for $map {
+        impl<K: $crate::KeyCanExtend<$map>> Extend<$crate::TypeMapEntry<K>> for $map {
             fn extend<T: IntoIterator<Item = $crate::TypeMapEntry<K>>>(&mut self, iter: T) {
                 let iter = iter
                     .into_iter()

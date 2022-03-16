@@ -30,7 +30,7 @@ pub trait MapKey {
 /// A trait implemented by all typemaps that provides
 /// all basic typemap functions
 pub trait TypeMap {
-    type Key;
+    type Key: MapKey<Map = Self>;
 
     /// Creates a new typemap
     fn new() -> Self;
@@ -50,3 +50,13 @@ pub trait TypeMap {
     /// Returns if the map contains a given key
     fn contains_key<T: TypedKeyTrait<Self::Key>>(&self) -> bool;
 }
+
+/// Marker trait to signify that a given map can extend a different map (M)
+/// or construct it
+pub trait MapCanExtend<M> {}
+
+/// Marker trait to signify that the given key associated with a map can extend
+/// or construct a given map (M)
+pub trait KeyCanExtend<M> {}
+
+impl<T: MapKey<Map = M>, M: MapCanExtend<M2>, M2> KeyCanExtend<M2> for T {}
