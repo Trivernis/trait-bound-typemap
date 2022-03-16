@@ -1,5 +1,6 @@
 use crate::{
-    AnyTypeMap, CloneSendSyncTypeMap, CloneTypeMap, PartialEqTypeMap, TypeMap, TypeMapKey,
+    AnyTypeMap, CloneSendSyncTypeMap, CloneTypeMap, PartialEqTypeMap, SendSyncTypeMap, TypeMap,
+    TypeMapKey,
 };
 
 pub struct TestStructKey;
@@ -97,6 +98,9 @@ fn it_converts() {
     let mut clone_send_sync_map = CloneSendSyncTypeMap::new();
     clone_send_sync_map.insert::<TestStructKey>(TestStruct::default());
     assert!(clone_send_sync_map.contains_key::<TestStructKey>());
+
+    let send_sync_map = SendSyncTypeMap::from_iter(clone_send_sync_map.clone());
+    assert!(send_sync_map.contains_key::<TestStructKey>());
 
     let clone_map = CloneTypeMap::from_iter(clone_send_sync_map);
     assert!(clone_map.contains_key::<TestStructKey>());
